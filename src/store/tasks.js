@@ -1,159 +1,123 @@
 export const tasks = {
   state: () => ({
-    tasks: [
+    taskGroup: [
       {
         id: 1,
-        messages: [
+        tasks: [
           {
             id: 1,
-            from: "You",
             message: `Sure, I'll see you later.`,
-            time: "10:42am",
-            color: "deep-purple-lighten-1",
+            done: true,
           },
           {
             id: 2,
-            from: "John Doe",
             message: "Yeah, sure. Does 1:00pm work?",
-            time: "10:37am",
-            color: "green",
+            done: false,
           },
           {
             id: 3,
-            from: "You",
             message: "Did you still want to grab lunch today?",
-            time: "9:47am",
-            color: "deep-purple-lighten-1",
+            done: false,
           },
         ],
       },
       {
         id: 2,
-        messages: [
+        tasks: [
           {
             id: 1,
-            from: "You",
             message: `Sure, I'll see you later.`,
-            time: "10:42am",
-            color: "deep-purple-lighten-1",
+            done: false,
           },
           {
             id: 4,
-            from: "John Doe",
             message: "Yeah, sure. Does 1:00pm work?",
-            time: "10:37am",
-            color: "green",
+            done: false,
           },
           {
             id: 3,
-            from: "You",
             message: "Did you still want to grab lunch today?",
-            time: "9:47am",
-            color: "deep-purple-lighten-1",
+            done: false,
           },
         ],
       },
       {
         id: 3,
-        messages: [
+        tasks: [
           {
             id: 1,
-            from: "You",
             message: `Sure, I'll see you later.`,
-            time: "10:42am",
-            color: "deep-purple-lighten-1",
+            done: false,
           },
           {
             id: 4,
-            from: "John Doe",
             message: "Yeah, sure. Does 1:00pm work?",
-            time: "10:37am",
-            color: "green",
+            done: false,
           },
           {
             id: 3,
-            from: "You",
             message: "Did you still want to grab lunch today?",
-            time: "9:47am",
-            color: "deep-purple-lighten-1",
+            done: false,
           },
         ],
       },
       {
         id: 4,
-        messages: [
+        tasks: [
           {
             id: 1,
-            from: "You",
             message: `Sure, I'll see you later.`,
-            time: "10:42am",
-            color: "deep-purple-lighten-1",
+            done: false,
           },
           {
             id: 4,
-            from: "John Doe",
             message: "Yeah, sure. Does 1:00pm work?",
-            time: "10:37am",
-            color: "green",
+            done: false,
           },
           {
             id: 3,
-            from: "You",
             message: "Did you still want to grab lunch today?",
-            time: "9:47am",
-            color: "deep-purple-lighten-1",
+            done: false,
           },
         ],
       },
       {
         id: 5,
-        messages: [
+        tasks: [
           {
             id: 1,
-            from: "You",
             message: `Sure, I'll see you later.`,
-            time: "10:42am",
-            color: "deep-purple-lighten-1",
+            done: false,
           },
           {
             id: 4,
-            from: "John Doe",
             message: "Yeah, sure. Does 1:00pm work?",
-            time: "10:37am",
-            color: "green",
+            done: false,
           },
           {
             id: 3,
-            from: "You",
             message: "Did you still want to grab lunch today?",
-            time: "9:47am",
-            color: "deep-purple-lighten-1",
+            done: false,
           },
         ],
       },
       {
         id: 6,
-        messages: [
+        tasks: [
           {
             id: 1,
-            from: "You",
             message: `Sure, I'll see you later.`,
-            time: "10:42am",
-            color: "deep-purple-lighten-1",
+            done: false,
           },
           {
             id: 4,
-            from: "John Doe",
             message: "Yeah, sure. Does 1:00pm work?",
-            time: "10:37am",
-            color: "green",
+            done: false,
           },
           {
             id: 3,
-            from: "You",
             message: "Did you still want to grab lunch today?",
-            time: "9:47am",
-            color: "deep-purple-lighten-1",
+            done: false,
           },
         ],
       },
@@ -161,23 +125,31 @@ export const tasks = {
   }),
   getters: {},
   mutations: {
-    addMessage(state, { taskId, newTaskText }) {
-      const index = state.tasks.findIndex((t) => t.id === taskId);
+    addTask(state, { taskGroupId, newTaskText }) {
+      const index = state.taskGroup.findIndex((t) => t.id === taskGroupId);
       const newMessage = new Object({
         id: Date.now(),
-        from: "You",
         message: newTaskText,
-        time: "10:42am",
-        color: "deep-purple-lighten-1",
+        done: false,
       });
 
-      state.tasks[index].messages.push(newMessage);
+      state.taskGroup[index].tasks.push(newMessage);
     },
-    deleteMessage(state, { taskId, messageId }) {
-      const index = state.tasks.findIndex((t) => t.id === taskId);
-      state.tasks[index].messages = state.tasks[index].messages.filter(
-        (m) => m.id !== messageId
+    deleteTaskGroup(state, { taskGroupId, taskId }) {
+      const index = state.taskGroup.findIndex((t) => t.id === taskGroupId);
+      state.taskGroup[index].tasks = state.taskGroup[index].tasks.filter(
+        (m) => m.id !== taskId
       );
+    },
+    toogleMessage(state, { taskGroupId, taskId }) {
+      const taskGroupIndex = state.taskGroup.findIndex(
+        (t) => t.id === taskGroupId
+      );
+      const messageIndex = state.taskGroup[taskGroupIndex].tasks.findIndex(
+        (m) => m.id === taskId
+      );
+      state.taskGroup[taskGroupIndex].tasks[messageIndex].done =
+        !state.taskGroup[taskGroupIndex].tasks[messageIndex].done;
     },
   },
   actions: {},

@@ -16,15 +16,20 @@
 
       <v-timeline density="compact" align="start">
         <v-timeline-item
-          v-for="message in props.task.messages"
-          :key="message.id"
-          :dot-color="message.color"
+          v-for="task in props.task.tasks"
+          :key="task.id"
+          :dot-color="task.done ? 'blue-lighten-1' : 'rgba(0,0,0,0.12)'"
           size="30"
           width="100%"
+          @click="handleTaskClick(task.id)"
+          style="cursor: pointer"
         >
           <div class="d-flex justify-space-between align-center">
-            <div class="font-weight-normal">
-              <strong>@{{ message.from }}</strong> {{ message.message }}
+            <div
+              class="font-weight-normal"
+              :class="{ 'text-decoration-line-through': task.done }"
+            >
+              {{ task.message }}
             </div>
             <v-btn
               class="ma-2"
@@ -33,7 +38,7 @@
               color="blue-lighten-2"
               size="30"
               style="margin: 0 !important"
-              @click="handleDeleteTask(props.task.id, message.id)"
+              @click.prevent.stop="handleDeleteTask(props.task.id, task.id)"
             />
           </div>
         </v-timeline-item>
@@ -50,6 +55,7 @@
         label="Add Task"
         bg-color="#fff"
         @click:appendInner="handleAddTask"
+        @keydown.enter="handleAddTask"
       />
     </v-card-text>
   </v-card>
@@ -63,20 +69,25 @@
   const props = defineProps(["task"]);
 
   //delete task
-  const handleDeleteTask = (taskId, messageId) => {
-    store.commit("deleteMessage", { taskId, messageId });
+  const handleDeleteTask = (taskGroupId, taskId) => {
+    store.commit("deleteTaskGroup", { taskGroupId, taskId });
   };
 
   //add new task
   const newTaskText = ref("");
   const handleAddTask = () => {
     if (newTaskText.value) {
-      store.commit("addMessage", {
-        taskId: props.task.id,
+      store.commit("addTask", {
+        taskGroupId: props.task.id,
         newTaskText: newTaskText.value,
       });
       newTaskText.value = "";
     }
+  };
+
+  //toogle task
+  const handleTaskClick = (taskId) => {
+    store.commit("toogleMessage", { taskGroupId: props.task.id, taskId });
   };
 </script>
 
