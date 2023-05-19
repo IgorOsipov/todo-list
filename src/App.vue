@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <v-navigation-drawer v-model="drawer">
 
       <v-list :items="items">
@@ -12,7 +12,7 @@
     </v-navigation-drawer>
 
     <v-app-bar>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="toogleMenu"></v-app-bar-nav-icon>
       <v-toolbar-title>TODO List</v-toolbar-title>
     </v-app-bar>
 
@@ -24,26 +24,27 @@
   </v-app>
 </template>
 
-<script>
-export default {
-  data: () => (
-    {
-      drawer: false,
-      items: [
-        {
-          icon: "mdi-home-variant",
-          title: "Home",
-          path: "/"
-        },
-        {
-          icon: "mdi-information-variant",
-          title: "About",
-          path: "/about"
-        }
-      ]
-    }
-  ),
+<script setup>
+import { ref } from 'vue';
+
+//menu
+const drawer = ref(false);
+const items = [
+  {
+    icon: "mdi-home-variant",
+    title: "Home",
+    path: "/"
+  },
+  {
+    icon: "mdi-information-variant",
+    title: "About",
+    path: "/about"
+  }
+];
+function toogleMenu() {
+  drawer.value = !drawer.value
 }
+
 </script>
 
 <style></style>
