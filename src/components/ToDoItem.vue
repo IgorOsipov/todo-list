@@ -24,7 +24,7 @@
         >
           <div class="d-flex justify-space-between align-center">
             <div class="font-weight-normal">
-              <strong>{{ message.from }}</strong> @{{ message.time }}
+              <strong>@{{ message.from }}</strong> {{ message.message }}
             </div>
             <v-btn
               class="ma-2"
@@ -33,24 +33,50 @@
               color="blue-lighten-2"
               size="30"
               style="margin: 0 !important"
-              @click="deleteTask(props.task.id, message.id)"
+              @click="handleDeleteTask(props.task.id, message.id)"
             />
           </div>
         </v-timeline-item>
       </v-timeline>
+
+      <v-text-field
+        class="pl-3 mt-1"
+        variant="underlined"
+        v-model="newTaskText"
+        clearable
+        clear-icon="mdi-close"
+        append-inner-icon="mdi-plus"
+        hide-details="auto"
+        label="Add Task"
+        bg-color="#fff"
+        @click:appendInner="handleAddTask"
+      />
     </v-card-text>
   </v-card>
 </template>
 
 <script setup>
-  import { defineProps } from "vue";
+  import { defineProps, ref } from "vue";
   import { useStore } from "vuex";
 
   const store = useStore();
   const props = defineProps(["task"]);
 
-  const deleteTask = (taskId, messageId) => {
+  //delete task
+  const handleDeleteTask = (taskId, messageId) => {
     store.commit("deleteMessage", { taskId, messageId });
+  };
+
+  //add new task
+  const newTaskText = ref("");
+  const handleAddTask = () => {
+    if (newTaskText.value) {
+      store.commit("addMessage", {
+        taskId: props.task.id,
+        newTaskText: newTaskText.value,
+      });
+      newTaskText.value = "";
+    }
   };
 </script>
 

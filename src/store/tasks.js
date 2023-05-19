@@ -161,6 +161,18 @@ export const tasks = {
   }),
   getters: {},
   mutations: {
+    addMessage(state, { taskId, newTaskText }) {
+      const index = state.tasks.findIndex((t) => t.id === taskId);
+      const newMessage = new Object({
+        id: Date.now(),
+        from: "You",
+        message: newTaskText,
+        time: "10:42am",
+        color: "deep-purple-lighten-1",
+      });
+
+      state.tasks[index].messages.push(newMessage);
+    },
     deleteMessage(state, { taskId, messageId }) {
       const index = state.tasks.findIndex((t) => t.id === taskId);
       state.tasks[index].messages = state.tasks[index].messages.filter(
