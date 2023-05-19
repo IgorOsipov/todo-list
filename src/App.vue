@@ -1,11 +1,15 @@
 <template>
   <v-app>
     <v-navigation-drawer v-model="drawer">
-
       <v-list :items="items">
         <v-list nav>
-          <v-list-item v-for="item in items" :key="item.value" :prepend-icon="item.icon" :title="item.title"
-            :to="item.path">
+          <v-list-item
+            v-for="item in items"
+            :key="item.value"
+            :prepend-icon="item.icon"
+            :title="item.title"
+            :to="item.path"
+          >
           </v-list-item>
         </v-list>
       </v-list>
@@ -25,26 +29,25 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+  import { ref } from "vue";
 
-//menu
-const drawer = ref(false);
-const items = [
-  {
-    icon: "mdi-home-variant",
-    title: "Home",
-    path: "/"
-  },
-  {
-    icon: "mdi-information-variant",
-    title: "About",
-    path: "/about"
-  }
-];
-function toogleMenu() {
-  drawer.value = !drawer.value
-}
-
+  //menu
+  const drawer = ref(false);
+  const items = [
+    {
+      icon: "mdi-home-variant",
+      title: "Home",
+      path: "/",
+    },
+    {
+      icon: "mdi-information-variant",
+      title: "About",
+      path: "/about",
+    },
+  ];
+  const toogleMenu = () => {
+    drawer.value = !drawer.value;
+  };
 </script>
 
 <style></style>
